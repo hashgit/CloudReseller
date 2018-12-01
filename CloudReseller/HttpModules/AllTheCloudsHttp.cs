@@ -1,4 +1,4 @@
-﻿using CloudReseller.Api.Models;
+﻿using CloudReseller.Api.Services.Entities;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,9 @@ namespace CloudReseller.Api.HttpModules
 {
     public interface IAllTheCloudsHttp
     {
+        Task Order(Order order);
         Task<IList<Product>> GetProducts();
+        Task<IList<FxRate>> GetFxRates();
     }
 
     public class AllTheCloudsHttp : IAllTheCloudsHttp
@@ -22,14 +24,37 @@ namespace CloudReseller.Api.HttpModules
 
         public IConfiguration Configuration { get; }
 
+        public async Task Order(Order order)
+        {
+            var client = GetClient();
+            var response = await client.PostAsJsonAsync("/api/orders", order);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException("Invalid response received from vendor");
+            }
+        }
+
         public async Task<IList<Product>> GetProducts()
         {
             var client = GetClient();
             var response = await client.GetAsync("/api/products");
             if (response.IsSuccessStatusCode)
             {
-                var products = await response.Content.ReadAs<IList<Product>>();
+                var products = await response.Content.ReadAsAsync<IList<Product>>();
                 return products;
+            }
+
+            throw new ApplicationException("Invalid response received from vendor");
+        }
+
+        public async Task<IList<FxRate>> GetFxRates()
+        {
+            var client = GetClient();
+            var response = await client.GetAsync("/api/fx-rates");
+            if (response.IsSuccessStatusCode)
+            {
+                var fxRates = await response.Content.ReadAsAsync<IList<FxRate>>();
+                return fxRates;
             }
 
             throw new ApplicationException("Invalid response received from vendor");

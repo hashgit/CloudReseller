@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CloudReseller.Api.Models;
 using CloudReseller.Api.Services;
@@ -20,11 +19,15 @@ namespace CloudReseller.Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] CurrencyType currency = CurrencyType.AUD)
         {
             try
             {
-                return Ok(await _vendorService.GetProducts());
+                return Ok(await _vendorService.GetProducts(currency));
+            }
+            catch (NotSupportedException)
+            {
+                return NotFound(currency);
             }
             catch (Exception)
             {
@@ -32,31 +35,6 @@ namespace CloudReseller.Api.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
