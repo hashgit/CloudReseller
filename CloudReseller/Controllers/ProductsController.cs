@@ -1,19 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using CloudReseller.Api.Models;
+using CloudReseller.Api.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CloudReseller.Controllers
+namespace CloudReseller.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ProductsController : Controller
     {
+        private readonly VendorService _vendorService;
+
+        public ProductsController(VendorService vendorService)
+        {
+            this._vendorService = vendorService;
+        }
+
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(await _vendorService.GetProducts());
+            }
+            catch (Exception)
+            {
+                // log it
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET api/values/5

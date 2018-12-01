@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CloudReseller.Api.HttpModules;
+using CloudReseller.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CloudReseller
+namespace CloudReseller.Api
 {
     public class Startup
     {
@@ -24,6 +26,9 @@ namespace CloudReseller
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSingleton(Configuration);
+            services.AddScoped<VendorService>();
+            services.AddScoped<IAllTheCloudsHttp, AllTheCloudsHttp>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
