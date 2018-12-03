@@ -15,7 +15,7 @@
  *    }
  */
 
-import { CHANGE_USERNAME, LOAD_PRODUCTS, PRODUCTS_LOADED } from './constants';
+import { CHANGE_USERNAME, LOAD_PRODUCTS, PRODUCTS_LOADED, DISPLAY_CURRENCY } from './constants';
 
 /**
  * Changes the input field of the form
@@ -31,9 +31,10 @@ export function changeUsername(name) {
   };
 }
 
-export function loadProducts() {
+export function loadProducts(cur) {
   return {
     type: LOAD_PRODUCTS,
+    currency: cur
   };
 }
 
@@ -41,5 +42,12 @@ export function productsLoaded(products) {
   return {
     type: PRODUCTS_LOADED,
     products,
+  };
+}
+
+export function displayCurrency(currency) {
+  return {
+    type: DISPLAY_CURRENCY,
+    currency,
   };
 }

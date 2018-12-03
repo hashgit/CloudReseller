@@ -27,7 +27,7 @@ namespace CloudReseller.Api.Controllers
                     return BadRequest(ModelState);
 
                 await _vendorService.PostOrder(order);
-                return Ok();
+                return NoContent();
             }
             catch (Exception)
             {

@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import ReposList from 'components/ReposList';
+import Order from 'containers/Order';
 import './style.scss';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -38,8 +39,18 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
             <p>As supplied by our vendor</p>
           </section>
           <section>
-            <h2>Try me!</h2>
+            <h2>
+              <select onChange={this.props.loadProducts}>
+                <option>AUD</option>
+                <option>GBP</option>
+                <option>USD</option>
+              </select>
+            </h2>
             <ReposList {...reposListProps} />
+          </section>
+          <section>
+            <h2>Order</h2>
+            <Order />
           </section>
         </div>
       </article>

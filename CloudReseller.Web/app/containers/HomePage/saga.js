@@ -2,22 +2,24 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { productsLoaded } from 'containers/HomePage/actions';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { productsLoaded, displayCurrency } from 'containers/HomePage/actions';
 
 import request from 'utils/request';
 import { LOAD_PRODUCTS } from 'containers/HomePage/constants';
+import { makeSelectCurrency } from 'containers/HomePage/selectors';
 
 /**
  */
 export function* getProducts() {
-  // Select username from store
-  const requestURL = 'http://localhost:61168/api/products';
+  const currency = yield select(makeSelectCurrency());
+  const requestURL = `http://localhost:61168/api/products?currency=${currency}`;
 
   try {
     // Call our request helper (see 'utils/request')
     const products = yield call(request, requestURL);
     yield put(productsLoaded(products));
+    yield put(displayCurrency(currency));
   } catch (err) {
     // yield put(repoLoadingError(err));
   }
