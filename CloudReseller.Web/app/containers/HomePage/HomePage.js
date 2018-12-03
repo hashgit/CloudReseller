@@ -15,17 +15,15 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
-    }
+    this.props.loadProducts();
   }
 
   render() {
-    const { loading, error, repos } = this.props;
+    const { loading, error, products } = this.props;
     const reposListProps = {
       loading,
       error,
-      repos,
+      products,
     };
 
     return (
@@ -36,24 +34,11 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
         </Helmet>
         <div className="home-page">
           <section className="centered">
-            <h2>Start your next react project in seconds</h2>
-            <p>A minimal <i>React-Redux</i> boilerplate with all the best practices</p>
+            <h2>Products</h2>
+            <p>As supplied by our vendor</p>
           </section>
           <section>
             <h2>Try me!</h2>
-            <form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-              Show Github repositories by
-                <span className="at-prefix">@</span>
-                <input
-                  id="username"
-                  type="text"
-                  placeholder="flexdinesh"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </form>
             <ReposList {...reposListProps} />
           </section>
         </div>
@@ -68,11 +53,9 @@ HomePage.propTypes = {
     PropTypes.object,
     PropTypes.bool,
   ]),
-  repos: PropTypes.oneOfType([
+  products: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.bool,
   ]),
-  onSubmitForm: PropTypes.func,
-  username: PropTypes.string,
-  onChangeUsername: PropTypes.func,
+  loadProducts: PropTypes.func,
 };

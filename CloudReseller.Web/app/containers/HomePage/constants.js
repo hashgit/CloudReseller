@@ -10,3 +10,5 @@
  */
 
 export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
+export const LOAD_PRODUCTS = 'boilerplate/Home/LOAD_PRODUCTS';
+export const PRODUCTS_LOADED = 'boilerplate/Home/PRODUCTS_LOADED';
