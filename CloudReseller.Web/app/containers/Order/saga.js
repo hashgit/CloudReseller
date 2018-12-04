@@ -10,7 +10,7 @@ export function* place() {
   const data = yield select(makeSelectData());
   const orders = yield select(makeSelectCart());
 
-  const requestURL = 'http://localhost:61168/api/orders';
+  const requestURL = `${process.env.API_URL}api/orders`;
   const payload = {
     name: data.name,
     email: data.email,
@@ -30,7 +30,6 @@ export function* place() {
     yield call(request, requestURL, options);
     yield put(placed());
   } catch (err) {
-    console.log(err);
     // yield put(repoLoadingError(err));
   }
 }

@@ -18,9 +18,10 @@ export default class Order extends React.PureComponent { // eslint-disable-line 
 
   placeOrder() {
     const { name, email } = this.state;
+    const { orders, placeOrder } = this.props;
 
-    if (name && email) {
-      this.props.placeOrder(name, email);
+    if (name && email && orders && orders.length) {
+      placeOrder(name, email);
     }
   }
 

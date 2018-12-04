@@ -13,7 +13,7 @@ import { makeSelectCurrency } from 'containers/HomePage/selectors';
  */
 export function* getProducts() {
   const currency = yield select(makeSelectCurrency());
-  const requestURL = `http://localhost:61168/api/products?currency=${currency}`;
+  const requestURL = `${process.env.API_URL}api/products?currency=${currency}`;
 
   try {
     // Call our request helper (see 'utils/request')
@@ -28,10 +28,6 @@ export function* getProducts() {
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* githubData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
+export default function* productsData() {
   yield takeLatest(LOAD_PRODUCTS, getProducts);
 }

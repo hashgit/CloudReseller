@@ -6,7 +6,9 @@ import RepoListItem from './RepoListItem';
 
 const mapDispatchToProps = (dispatch) => ({
   addToCart: (product, quantity) => {
-    dispatch(addProduct({ product, quantity }));
+    if (quantity) {
+      dispatch(addProduct({ product, quantity }));
+    }
   }
 });
 
